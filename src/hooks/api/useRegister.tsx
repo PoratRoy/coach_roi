@@ -2,21 +2,23 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { RegisterRequest } from "../../models/types/request";
 import { auth, db } from "../../config/firebase";
 import { doc, setDoc } from "firebase/firestore";
-import { useAuthContext } from "../../context/AuthContext";
+import { User } from "../../models/types/auth";
 
 const useRegister = () => {
-    const {initializeUser} = useAuthContext();
     const handleRegister = async (req: RegisterRequest) => {
         const { username, email, password } = req;
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             const user = auth.currentUser;
-            if (!user) return false;
-            initializeUser(user);
-            await setDoc(doc(db, "Users", user.uid), {
+            if (!user || !user.uid) return false;
+            const newUser: User = {
+                uid: user.uid,
+                email: user.email,
                 username,
-                email,
-            });
+                role: "user",
+            };
+            const { uid, ...dbUser } = newUser;
+            await setDoc(doc(db, "Users", user.uid), dbUser);
             return true;
         } catch (error) {
             console.log("error:", error);

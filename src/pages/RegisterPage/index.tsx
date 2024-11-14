@@ -3,6 +3,7 @@ import style from "./RegisterPage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import router from "../../router/path.json";
 import useRegister from "../../hooks/api/useRegister";
+import Layout from "../../components/Layout";
 
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
@@ -25,29 +26,37 @@ const RegisterPage: React.FC = () => {
     };
 
     return (
-        <section className={style.container}>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username:</label>
-                    <input id="username" type="text" ref={usernameRef} required minLength={3} />
-                </div>
+        <Layout>
+            <section className={style.container}>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label htmlFor="username">Username:</label>
+                        <input id="username" type="text" ref={usernameRef} required minLength={3} />
+                    </div>
 
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input id="email" type="email" ref={emailRef} required />
-                </div>
+                    <div>
+                        <label htmlFor="email">Email:</label>
+                        <input id="email" type="email" ref={emailRef} required />
+                    </div>
 
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input id="password" type="password" ref={passwordRef} required minLength={6} />
-                </div>
+                    <div>
+                        <label htmlFor="password">Password:</label>
+                        <input
+                            id="password"
+                            type="password"
+                            ref={passwordRef}
+                            required
+                            minLength={6}
+                        />
+                    </div>
 
-                <button type="submit">Register</button>
-            </form>
-            <div>
-                <Link to={router.login}>login</Link>
-            </div>
-        </section>
+                    <button type="submit">Register</button>
+                </form>
+                <div>
+                    <Link to={router.login}>login</Link>
+                </div>
+            </section>
+        </Layout>
     );
 };
 

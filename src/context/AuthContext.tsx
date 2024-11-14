@@ -1,13 +1,14 @@
 import { createContext, useContext, useState } from "react";
 import { auth } from "../config/firebase";
-import { GoogleUser } from "../models/types";
+import { User } from "../models/types/auth";
 import { defualtAuthContext } from "../models/init/context";
 
 export type AuthContextType = {
     currentUser: any;
     userLoggedin: boolean;
+    isAdmin: boolean;
     loading: boolean;
-    initializeUser: (user: any) => void
+    initializeUser: (user: any) => void;
     logout: () => Promise<void>;
 };
 
@@ -16,8 +17,9 @@ export const AuthContext = createContext<AuthContextType>(defualtAuthContext);
 export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [currentUser, setCurrentUser] = useState<GoogleUser | null>(null);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [userLoggedin, setUserLoggedin] = useState<boolean>(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [loading, setLoading] = useState<boolean>(true);
 
     // useEffect(() => {
@@ -25,14 +27,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     //     return unsubscribe;
     // });
 
-    const initializeUser = (user: any) => {
-        if (user && (user as GoogleUser)?.uid) {
-            setCurrentUser({ ...user });
-            setUserLoggedin(true);
-        } else {
-            setCurrentUser(null);
-            setUserLoggedin(false);
-        }
+    const initializeUser = (user: User) => {
+        setCurrentUser({ ...user });
+        setIsAdmin(user.role === "admin"? true: false);
+        setUserLoggedin(true);
         setLoading(false);
     };
 
@@ -45,6 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             value={{
                 currentUser,
                 userLoggedin,
+                isAdmin,
                 loading,
                 initializeUser,
                 logout,

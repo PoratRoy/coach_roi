@@ -1,6 +1,7 @@
 import style from "./EditProgram.module.css";
 import useEditTable from "../../hooks/useEditTable";
 import { WorkoutRow } from "../../models/types/workout";
+import SelectUser from "../SelectUser";
 
 interface WorkoutSubmitData {
     date: string;
@@ -33,6 +34,10 @@ const EditProgram = () => {
 
     return (
         <div className={style.workoutContainer}>
+            <section>
+                <SelectUser/>
+            </section>
+            <br />
             <div className={style.header}>
                 <button onClick={handleAddRow} className={style.addButton}>
                     הוסף תרגיל +
