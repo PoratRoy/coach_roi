@@ -1,0 +1,148 @@
+.workoutContainer {
+    padding: 20px;
+    direction: rtl;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+.addButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.addButton:hover {
+    background-color: #45a049;
+}
+
+.tableContainer {
+    overflow-x: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.workoutTable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    min-width: 800px;
+}
+
+.workoutTable th,
+.workoutTable td {
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+}
+
+.workoutTable th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
+}
+
+.workoutTable tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.tableInput,
+.tableInputCenter {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid transparent;
+    background: transparent;
+    font-size: 14px;
+}
+
+.tableInput:focus,
+.tableInputCenter:focus {
+    border-color: #4CAF50;
+    outline: none;
+    background: white;
+}
+
+.tableInputCenter {
+    text-align: center;
+}
+
+.deleteButton {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s;
+}
+
+.deleteButton:hover {
+    background-color: #d32f2f;
+}
+
+
+.submit-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.submitButton {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    min-width: 150px;
+}
+
+.submitButton:hover {
+    background-color: #1976D2;
+}
+
+/* Optional: Add placeholder styling */
+.tableInput::placeholder .workoutContainer::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .workoutContainer {
+        padding: 10px;
+    }
+
+    .workoutTitle {
+        font-size: 20px;
+    }
+
+    .addButton {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+
+    .workoutTable th,
+    .workoutTable td {
+        padding: 8px;
+    }
+
+    .tableInput,
+    .tableInputCenter {
+        font-size: 12px;
+    }
+}
