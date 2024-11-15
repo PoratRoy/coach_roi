@@ -1,41 +1,52 @@
 import style from "./EditProgram.module.css";
 import useEditTable from "../../hooks/useEditTable";
-import { WorkoutRow } from "../../models/types/workout";
 import SelectUser from "../SelectUser";
-
-interface WorkoutSubmitData {
-    date: string;
-    exercises: Omit<WorkoutRow, "id">[];
-}
+import { useEffect, useState } from "react";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../config/firebase";
 
 const EditProgram = () => {
-    const { workoutData, handleCellEdit, handleAddRow, handleDeleteRow } = useEditTable();
+    const { workoutData, fillTable, handleCellEdit, handleAddRow, handleDeleteRow } =
+        useEditTable();
+    const [selectedUserId, setSelectedUserId] = useState<string>("");
 
-    const handleSubmit = () => {
-        // Validate that no required fields are empty
-        const hasEmptyFields = workoutData.some(
-            (row) => !row.exercise || row.sets === 0 || !row.reps || !row.rest || !row.weight,
-        );
-
-        if (hasEmptyFields) {
-            alert("נא למלא את כל השדות הנדרשים");
-            return;
+    useEffect(() => {
+        if (selectedUserId != "") {
+            fillTable(selectedUserId);
         }
+    }, [selectedUserId]);
 
-        // Create submit data object
-        const submitData: WorkoutSubmitData = {
-            date: new Date().toISOString(),
-            exercises: workoutData.map(({ id, ...rest }) => rest), // Remove the id field from each exercise
-        };
+    const handleSubmit = async () => {
+        // // Validate that no required fields are empty
+        // const hasEmptyFields = workoutData.some(
+        //     (row) => !row.exercise || row.sets === 0 || !row.reps || !row.rest || !row.weight,
+        // );
+        // if (hasEmptyFields) {
+        //     alert("נא למלא את כל השדות הנדרשים");
+        //     return;
+        // }
+        if (selectedUserId !== "") {
+            workoutData.forEach((row) => {
+                row.userId = selectedUserId;
+            });
 
-        // Log the data
-        console.log("Workout Data:", submitData);
+            const userRef = doc(db, "Users", selectedUserId);
+
+            try {
+                await updateDoc(userRef, {
+                    workouts: workoutData || [],
+                });
+                console.log("Workout Data:", workoutData);
+            } catch (error) {
+                console.error("Error replacing workouts:", error);
+            }
+        }
     };
 
     return (
         <div className={style.workoutContainer}>
             <section>
-                <SelectUser/>
+                <SelectUser selectedUserId={selectedUserId} setSelectedUserId={setSelectedUserId} />
             </section>
             <br />
             <div className={style.header}>
@@ -47,6 +58,7 @@ const EditProgram = () => {
                 <table className={style.workoutTable}>
                     <thead>
                         <tr>
+                            <th>תרגיל</th>
                             <th>קישור</th>
                             <th>סט</th>
                             <th>חזרות</th>
@@ -68,6 +80,17 @@ const EditProgram = () => {
                                         }
                                         className={style.tableInput}
                                         placeholder="שם התרגיל"
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        value={row.link}
+                                        onChange={(e) =>
+                                            handleCellEdit(row.id, "link", e.target.value)
+                                        }
+                                        className={style.tableInput}
+                                        placeholder="קישור לתרגיל"
                                     />
                                 </td>
                                 <td>

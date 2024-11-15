@@ -1,7 +1,10 @@
+import { Workout } from "./workout";
+
 export type User = {
     uid: string;
     email: string | null;
     username: string;
+    workouts?: Workout[];
     role: "user" | "admin";
 };
 

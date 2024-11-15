@@ -7,20 +7,23 @@ import ProgramPage from "./pages/ProgramPage";
 import RegisterPage from "./pages/RegisterPage";
 import PrivateRoute from "./router/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
+import { WorkoutProvider } from "./context/WorkoutContext";
 
 function App() {
     return (
         <HelmetProvider>
             <AuthProvider>
-                <Router>
-                    <Routes>
-                        <Route path={route.login} element={<LoginPage />} />
-                        <Route element={<PrivateRoute />}>
-                            <Route path={route.register} element={<RegisterPage />} />
-                            <Route path={route.program} element={<ProgramPage />} />
-                        </Route>
-                    </Routes>
-                </Router>
+                <WorkoutProvider>
+                    <Router>
+                        <Routes>
+                            <Route path={route.login} element={<LoginPage />} />
+                            <Route element={<PrivateRoute />}>
+                                <Route path={route.register} element={<RegisterPage />} />
+                                <Route path={route.program} element={<ProgramPage />} />
+                            </Route>
+                        </Routes>
+                    </Router>
+                </WorkoutProvider>
             </AuthProvider>
         </HelmetProvider>
     );

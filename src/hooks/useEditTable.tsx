@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { WorkoutRow } from "../models/types/workout";
+import { Workout } from "../models/types/workout";
 import { initWorkout, newWorkoutRow } from "../models/init/workout";
+import { useWorkoutContext } from "../context/WorkoutContext";
 
 const useEditTable = () => {
-    const [workoutData, setWorkoutData] = useState<WorkoutRow[]>([initWorkout]);
+    const { users } = useWorkoutContext();
+    const [workoutData, setWorkoutData] = useState<Workout[]>([initWorkout]);
     // Handle cell edit
-    const handleCellEdit = (id: number, field: keyof WorkoutRow, value: string | number) => {
+    const handleCellEdit = (id: number, field: keyof Workout, value: string | number) => {
         setWorkoutData((prevData) =>
             prevData.map((row) =>
                 row.id === id
@@ -21,7 +23,7 @@ const useEditTable = () => {
     // Add new row
     const handleAddRow = () => {
         const newId = Math.max(...workoutData.map((row) => row.id)) + 1;
-        const newRow: WorkoutRow = newWorkoutRow(newId);
+        const newRow: Workout = newWorkoutRow(newId);
         setWorkoutData([...workoutData, newRow]);
     };
 
@@ -30,7 +32,14 @@ const useEditTable = () => {
         setWorkoutData((prevData) => prevData.filter((row) => row.id !== id));
     };
 
-    return { workoutData, handleCellEdit, handleAddRow, handleDeleteRow };
+    const fillTable = (selectedUserId: string) => {
+        const user = users.find((user) => user.uid === selectedUserId);
+        if (user) {
+            setWorkoutData(user.workouts || [initWorkout]);
+        }
+    }
+
+    return { workoutData, fillTable, handleCellEdit, handleAddRow, handleDeleteRow };
 };
 
 export default useEditTable;

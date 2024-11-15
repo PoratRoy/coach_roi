@@ -10,10 +10,8 @@ const ProgramPage: React.FC = () => {
 
     return (
         <Layout>
-            <div className={style.workoutContainer}>
-                <h2 className={style.workoutTitle}>תוכנית אימון</h2>
-                {isAdmin ? <EditProgram /> : <StaticProgram />}
-            </div>
+            <h2 className={style.workoutTitle}>תוכנית אימון</h2>
+            {isAdmin ? <EditProgram /> : <StaticProgram />}
         </Layout>
     );
 };

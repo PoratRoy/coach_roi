@@ -8,3 +8,9 @@ export const defualtAuthContext: AuthContextType = {
     initializeUser: (user: any) => {},
     logout: async () => {}
 };
+
+export const defualtWorkoutContext = {
+    users: [],
+    setUsers: () => {},
+    clearUsers: () => {}
+};

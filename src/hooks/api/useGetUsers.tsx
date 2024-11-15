@@ -4,9 +4,11 @@ import { useState } from "react";
 import { User } from "../../models/types/auth";
 import { useAuthContext } from "../../context/AuthContext";
 import { SelectOption } from "../../models/types";
+import { useWorkoutContext } from "../../context/WorkoutContext";
 
 const useGetUsers = () => {
     const { currentUser } = useAuthContext();
+    const { setUsers } = useWorkoutContext();
     const [usersOptions, setUsersOptions] = useState<SelectOption[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -21,16 +23,22 @@ const useGetUsers = () => {
             const q = query(usersQuery);
             const querySnapshot = await getDocs(q);
 
-            const usersData = querySnapshot.docs
-                .filter((doc) => doc.id !== currentUser?.uid)
-                .map(
-                    (doc) =>
-                        ({
-                            value: doc.id,
-                            label: (doc.data() as User).username,
-                        }) as SelectOption,
-                );
-
+            const allUsers = querySnapshot.docs
+                .map((doc) => {
+                    return {
+                        uid: doc.id,
+                        ...doc.data(),
+                    } as User;
+                })
+                .filter((user) => user.uid !== currentUser?.uid);
+            setUsers(allUsers);
+            const usersData = allUsers.map(
+                (user) =>
+                    ({
+                        value: user.uid,
+                        label: user.username,
+                    }) as SelectOption,
+            );
             setUsersOptions(usersData);
         } catch (err) {
             setError(err instanceof Error ? err.message : "Failed to fetch users");

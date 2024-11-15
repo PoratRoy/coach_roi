@@ -3,13 +3,16 @@ import style from "./Header.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import router from "../../router/path.json";
 import { useAuthContext } from "../../context/AuthContext";
+import { useWorkoutContext } from "../../context/WorkoutContext";
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
     const { logout, isAdmin } = useAuthContext();
+    const { clearUsers } = useWorkoutContext();
 
     const handleLogout = async () => {
         await logout();
+        clearUsers();
         navigate(router.login);
     };
 

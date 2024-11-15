@@ -1,6 +1,6 @@
 import React, { FormEvent, useRef } from "react";
 import style from "./LoginPage.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import router from "../../router/path.json";
 import useLogin from "../../hooks/api/useLogin";
 
@@ -37,9 +37,6 @@ const LoginPage: React.FC = () => {
 
                 <button type="submit">Login</button>
             </form>
-            <div>
-                <Link to={router.register}>register</Link>
-            </div>
         </section>
     );
 };

@@ -4,7 +4,7 @@ import { User } from "../models/types/auth";
 import { defualtAuthContext } from "../models/init/context";
 
 export type AuthContextType = {
-    currentUser: any;
+    currentUser: User | null;
     userLoggedin: boolean;
     isAdmin: boolean;
     loading: boolean;
@@ -35,6 +35,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     const logout = async () => {
+        setCurrentUser(null);
+        setUserLoggedin(false);
+        setIsAdmin(false);
         await auth.signOut();
     };
 

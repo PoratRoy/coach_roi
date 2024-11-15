@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import style from "./SelectUser.module.css";
 import useGetUsers from "../../hooks/api/useGetUsers";
 
-type SelectUserProps = {};
+type SelectUserProps = {
+    selectedUserId: string;
+    setSelectedUserId: React.Dispatch<React.SetStateAction<string>>;
+};
 
-const SelectUser: React.FC<SelectUserProps> = () => {
+const SelectUser: React.FC<SelectUserProps> = ({ selectedUserId, setSelectedUserId }) => {
     const { usersOptions, fetchUsers } = useGetUsers();
-    const [selectedUserId, setSelectedUserId] = useState<string>("");
     const [selected, setIsSelected] = useState(selectedUserId ? true : false);
 
     useEffect(() => {
@@ -14,6 +16,12 @@ const SelectUser: React.FC<SelectUserProps> = () => {
             fetchUsers();
         }
     }, []);
+
+    useEffect(() => {
+        if (selectedUserId == "" && usersOptions.length) {
+            setSelectedUserId(usersOptions[0].value);
+        }
+    }, [usersOptions]);
 
     useEffect(() => {
         setIsSelected(selectedUserId ? true : false);
