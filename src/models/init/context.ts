@@ -6,7 +6,7 @@ export const defualtAuthContext: AuthContextType = {
     userLoggedin: false,
     isAdmin: false,
     loading: false,
-    initializeUser: (user: any) => {},
+    initializeUser: () => {},
     logout: async () => {}
 };
 
