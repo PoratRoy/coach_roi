@@ -11,7 +11,7 @@ const EditProgram: React.FC = () => {
 
     const { workoutData, fillTable, handleCellEdit, handleAddRow, handleDeleteRow } =
         useEditTable();
-    const { updateWorkout } = useUpdateWorkout(workoutData, selectedUserId);
+    const { updateWorkout, isLoading } = useUpdateWorkout(workoutData, selectedUserId);
 
     useEffect(() => {
         if (selectedUserId != "") {
@@ -57,7 +57,6 @@ const EditProgram: React.FC = () => {
                                     id={row.id}
                                     name="exercise"
                                     handleCellEdit={handleCellEdit}
-                                    type="text"
                                     placeholder="שם התרגיל"
                                 />
                                 <TableRow
@@ -65,16 +64,15 @@ const EditProgram: React.FC = () => {
                                     id={row.id}
                                     name="link"
                                     handleCellEdit={handleCellEdit}
-                                    type="text"
                                     placeholder="קישור לתרגיל"
                                 />
 
                                 <TableRow
                                     value={row.sets}
                                     id={row.id}
+                                    type="number"
                                     name="sets"
                                     handleCellEdit={handleCellEdit}
-                                    type="number"
                                     placeholder="מספר"
                                 />
                                 <TableRow
@@ -82,7 +80,6 @@ const EditProgram: React.FC = () => {
                                     id={row.id}
                                     name="reps"
                                     handleCellEdit={handleCellEdit}
-                                    type="text"
                                     placeholder="מספר"
                                 />
 
@@ -91,7 +88,6 @@ const EditProgram: React.FC = () => {
                                     id={row.id}
                                     name="rest"
                                     handleCellEdit={handleCellEdit}
-                                    type="text"
                                     placeholder="זמן"
                                 />
 
@@ -100,7 +96,6 @@ const EditProgram: React.FC = () => {
                                     id={row.id}
                                     name="weight"
                                     handleCellEdit={handleCellEdit}
-                                    type="text"
                                     placeholder="ק״ג"
                                 />
                                 <TableRow
@@ -108,7 +103,6 @@ const EditProgram: React.FC = () => {
                                     id={row.id}
                                     name="notes"
                                     handleCellEdit={handleCellEdit}
-                                    type="text"
                                     placeholder="הערות"
                                 />
 
@@ -126,13 +120,7 @@ const EditProgram: React.FC = () => {
                 </table>
             </section>
 
-            <FormBtn title="שמור אימון" isLoading={false} onClick={handleSubmit} />
-
-            {/* <section className={style.workoutBottom}>
-                <button onClick={handleSubmit} className={style.submitButton}>
-                    שמור אימון
-                </button>
-            </section> */}
+            <FormBtn title="שמור אימון" isLoading={isLoading} onClick={handleSubmit} />
         </section>
     );
 };

@@ -1,4 +1,5 @@
 import { AuthContextType } from "../../context/AuthContext";
+import { WorkoutContextType } from "../../context/WorkoutContext";
 
 export const defualtAuthContext: AuthContextType = {
     currentUser: null,
@@ -9,8 +10,11 @@ export const defualtAuthContext: AuthContextType = {
     logout: async () => {}
 };
 
-export const defualtWorkoutContext = {
+export const defualtWorkoutContext: WorkoutContextType = {
     users: [],
     setUsers: () => {},
+    setAlert: () => {},
+    getAlert: () => { return { alertMsg: "", alertType: "success" } },
+    hasAlert: false,
     clearUsers: () => {}
 };

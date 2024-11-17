@@ -1,10 +1,11 @@
 import React from "react";
-import style from "./TableRow.module.css";
 import { Workout } from "../../models/types/workout";
+import AreaInput from "../AreaInput";
+import NumberInput from "../NumberInput";
 
 type TableRowProps = {
-    type: string;
     id: number;
+    type?: "text" | "number";
     name: keyof Workout;
     value: string | undefined | number;
     placeholder: string;
@@ -16,18 +17,21 @@ const TableRow: React.FC<TableRowProps> = ({
     id,
     name,
     handleCellEdit,
-    type,
     placeholder,
+    type = "text",
 }) => {
     return (
         <td>
-            <input
-                type={type}
-                value={value}
-                onChange={(e) => handleCellEdit(id, name, e.target.value)}
-                className={style.tableInput}
-                placeholder={placeholder}
-            />
+            {type === "text" ? (
+                <AreaInput
+                    id={id}
+                    value={value}
+                    onChange={(v) => handleCellEdit(id, name, v)}
+                    placeholder={placeholder}
+                />
+            ) : (
+                <NumberInput id={id} value={value} onChange={(v) => handleCellEdit(id, name, v)} />
+            )}
         </td>
     );
 };

@@ -2,15 +2,15 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { Workout } from "../../models/types/workout";
 import { useState } from "react";
+import { useWorkoutContext } from "../../context/WorkoutContext";
 
 const useUpdateWorkout = (workoutData: Workout[], selectedUserId: string) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const { setAlert } = useWorkoutContext();
 
     const validation = (workoutData: Workout[]) => {
-        // const hasEmptyFields = workoutData.some(
-        //     (row) => !row.exercise || row.sets === 0 || !row.reps || !row.rest || !row.weight,
-        // );
-        return true;
+        const hasEmptyFields = workoutData.some((row) => !row.exercise);
+        return !hasEmptyFields;
     };
 
     const updateWorkout = async () => {
@@ -27,9 +27,11 @@ const useUpdateWorkout = (workoutData: Workout[], selectedUserId: string) => {
                     await updateDoc(userRef, {
                         workouts: workoutData || [],
                     });
+                    setAlert("התוכנית עודכנה בהצלחה", "success", true);
                     setIsLoading(false);
                 } catch (error) {
                     console.error("Error replacing workouts:", error);
+                    setAlert("שגיאה בעדכון התוכנית", "error", true);
                     setIsLoading(false);
                 }
             }
