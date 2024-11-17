@@ -10,6 +10,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     return (
         <section className={style.layout}>
             <Header />
+            <br />
             {children}
         </section>
     );

@@ -1,15 +1,12 @@
-.workoutContainer {
-    padding: 20px;
-    direction: rtl;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+.workoutTitle{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    color: white;
 }
 
-.workoutTitle {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
-}
+
 
 .tableContainer {
     overflow-x: auto;
@@ -47,22 +44,4 @@
 
 .centerText {
     text-align: center;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    .workoutContainer {
-        padding: 10px;
-    }
-
-    .workoutTitle {
-        font-size: 20px;
-        margin-bottom: 15px;
-    }
-
-    .workoutTable th,
-    .workoutTable td {
-        padding: 8px;
-        font-size: 14px;
-    }
 }

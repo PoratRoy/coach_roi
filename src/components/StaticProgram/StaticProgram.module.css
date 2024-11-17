@@ -1,14 +1,16 @@
 .tableContainer {
-    overflow-x: auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    width: 95vw;
+    overflow-x: auto;
+    margin: 0 auto;
 }
 
 .workoutTable {
     width: 100%;
     border-collapse: collapse;
     background-color: white;
-    min-width: 600px;
+    min-width: 800px;
 }
 
 .workoutTable th,
@@ -34,14 +36,4 @@
 
 .centerText {
     text-align: center;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-
-    .workoutTable th,
-    .workoutTable td {
-        padding: 8px;
-        font-size: 14px;
-    }
 }

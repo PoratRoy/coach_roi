@@ -1,14 +1,17 @@
 import style from "./EditProgram.module.css";
 import useEditTable from "../../hooks/useEditTable";
 import SelectUser from "../SelectUser";
-import { useEffect, useState } from "react";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../config/firebase";
+import TableRow from "../TableRow";
+import FormBtn from "../FormBtn";
+import useUpdateWorkout from "../../hooks/api/useUpdateWorkout";
+import React, { useEffect, useState } from "react";
 
-const EditProgram = () => {
+const EditProgram: React.FC = () => {
+    const [selectedUserId, setSelectedUserId] = useState<string>("");
+
     const { workoutData, fillTable, handleCellEdit, handleAddRow, handleDeleteRow } =
         useEditTable();
-    const [selectedUserId, setSelectedUserId] = useState<string>("");
+    const { updateWorkout } = useUpdateWorkout(workoutData, selectedUserId);
 
     useEffect(() => {
         if (selectedUserId != "") {
@@ -17,44 +20,22 @@ const EditProgram = () => {
     }, [selectedUserId]);
 
     const handleSubmit = async () => {
-        // // Validate that no required fields are empty
-        // const hasEmptyFields = workoutData.some(
-        //     (row) => !row.exercise || row.sets === 0 || !row.reps || !row.rest || !row.weight,
-        // );
-        // if (hasEmptyFields) {
-        //     alert("נא למלא את כל השדות הנדרשים");
-        //     return;
-        // }
-        if (selectedUserId !== "") {
-            workoutData.forEach((row) => {
-                row.userId = selectedUserId;
-            });
-
-            const userRef = doc(db, "Users", selectedUserId);
-
-            try {
-                await updateDoc(userRef, {
-                    workouts: workoutData || [],
-                });
-                console.log("Workout Data:", workoutData);
-            } catch (error) {
-                console.error("Error replacing workouts:", error);
-            }
-        }
+        await updateWorkout();
     };
 
     return (
-        <div className={style.workoutContainer}>
-            <section>
+        <section className={style.workoutContainer}>
+            <section className={style.workoutSelector}>
                 <SelectUser selectedUserId={selectedUserId} setSelectedUserId={setSelectedUserId} />
             </section>
-            <br />
-            <div className={style.header}>
+
+            <section className={style.workoutTop}>
                 <button onClick={handleAddRow} className={style.addButton}>
                     הוסף תרגיל +
                 </button>
-            </div>
-            <div className={style.tableContainer}>
+            </section>
+
+            <section className={style.tableContainer}>
                 <table className={style.workoutTable}>
                     <thead>
                         <tr>
@@ -71,84 +52,66 @@ const EditProgram = () => {
                     <tbody>
                         {workoutData.map((row) => (
                             <tr key={row.id}>
-                                <td>
-                                    <input
-                                        type="text"
-                                        value={row.exercise}
-                                        onChange={(e) =>
-                                            handleCellEdit(row.id, "exercise", e.target.value)
-                                        }
-                                        className={style.tableInput}
-                                        placeholder="שם התרגיל"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        value={row.link}
-                                        onChange={(e) =>
-                                            handleCellEdit(row.id, "link", e.target.value)
-                                        }
-                                        className={style.tableInput}
-                                        placeholder="קישור לתרגיל"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="number"
-                                        value={row.sets}
-                                        onChange={(e) =>
-                                            handleCellEdit(row.id, "sets", e.target.value)
-                                        }
-                                        className={style.tableInputCenter}
-                                        min="0"
-                                        placeholder="מספר"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        value={row.reps}
-                                        onChange={(e) =>
-                                            handleCellEdit(row.id, "reps", e.target.value)
-                                        }
-                                        className={style.tableInputCenter}
-                                        placeholder="מספר"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        value={row.rest}
-                                        onChange={(e) =>
-                                            handleCellEdit(row.id, "rest", e.target.value)
-                                        }
-                                        className={style.tableInputCenter}
-                                        placeholder="זמן"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        value={row.weight}
-                                        onChange={(e) =>
-                                            handleCellEdit(row.id, "weight", e.target.value)
-                                        }
-                                        className={style.tableInputCenter}
-                                        placeholder="ק״ג"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        value={row.notes}
-                                        onChange={(e) =>
-                                            handleCellEdit(row.id, "notes", e.target.value)
-                                        }
-                                        className={style.tableInput}
-                                        placeholder="הערות"
-                                    />
-                                </td>
+                                <TableRow
+                                    value={row.exercise}
+                                    id={row.id}
+                                    name="exercise"
+                                    handleCellEdit={handleCellEdit}
+                                    type="text"
+                                    placeholder="שם התרגיל"
+                                />
+                                <TableRow
+                                    value={row.link}
+                                    id={row.id}
+                                    name="link"
+                                    handleCellEdit={handleCellEdit}
+                                    type="text"
+                                    placeholder="קישור לתרגיל"
+                                />
+
+                                <TableRow
+                                    value={row.sets}
+                                    id={row.id}
+                                    name="sets"
+                                    handleCellEdit={handleCellEdit}
+                                    type="number"
+                                    placeholder="מספר"
+                                />
+                                <TableRow
+                                    value={row.reps}
+                                    id={row.id}
+                                    name="reps"
+                                    handleCellEdit={handleCellEdit}
+                                    type="text"
+                                    placeholder="מספר"
+                                />
+
+                                <TableRow
+                                    value={row.rest}
+                                    id={row.id}
+                                    name="rest"
+                                    handleCellEdit={handleCellEdit}
+                                    type="text"
+                                    placeholder="זמן"
+                                />
+
+                                <TableRow
+                                    value={row.weight}
+                                    id={row.id}
+                                    name="weight"
+                                    handleCellEdit={handleCellEdit}
+                                    type="text"
+                                    placeholder="ק״ג"
+                                />
+                                <TableRow
+                                    value={row.notes}
+                                    id={row.id}
+                                    name="notes"
+                                    handleCellEdit={handleCellEdit}
+                                    type="text"
+                                    placeholder="הערות"
+                                />
+
                                 <td>
                                     <button
                                         onClick={() => handleDeleteRow(row.id)}
@@ -161,13 +124,16 @@ const EditProgram = () => {
                         ))}
                     </tbody>
                 </table>
-            </div>
-            <div className={style.submitContainer}>
+            </section>
+
+            <FormBtn title="שמור אימון" isLoading={false} onClick={handleSubmit} />
+
+            {/* <section className={style.workoutBottom}>
                 <button onClick={handleSubmit} className={style.submitButton}>
                     שמור אימון
                 </button>
-            </div>
-        </div>
+            </section> */}
+        </section>
     );
 };
 

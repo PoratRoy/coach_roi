@@ -27,7 +27,7 @@ const SelectUser: React.FC<SelectUserProps> = ({ selectedUserId, setSelectedUser
         setIsSelected(selectedUserId ? true : false);
     }, [selectedUserId]);
 
-    const handleChnage = (value: string) => {
+    const handleChange = (value: string) => {
         setSelectedUserId(value);
         setIsSelected(value !== "" || selectedUserId ? true : false);
     };
@@ -37,8 +37,9 @@ const SelectUser: React.FC<SelectUserProps> = ({ selectedUserId, setSelectedUser
             <select
                 style={{ color: selected ? "#333335" : "#8b8b8b" }}
                 value={selectedUserId}
-                onChange={(e) => handleChnage(e.target.value)}
+                onChange={(e) => handleChange(e.target.value)}
                 aria-label={"בחר מתאמן"}
+                className={style.select}
             >
                 <option value="" disabled>
                     בחר מתאמן

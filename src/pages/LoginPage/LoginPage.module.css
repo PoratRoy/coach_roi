@@ -1,0 +1,10 @@
+.loginForm{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    color: white;
+}
+
+.loginTitle{
+    text-align: center;
+}

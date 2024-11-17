@@ -1,0 +1,21 @@
+.formInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.formInputLabel {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.formInputInput {
+    width: 100%;
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}

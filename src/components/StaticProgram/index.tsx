@@ -2,6 +2,7 @@ import React from "react";
 import style from "./StaticProgram.module.css";
 import { useAuthContext } from "../../context/AuthContext";
 import { initWorkout } from "../../models/init/workout";
+import { IoMdLink } from "react-icons/io";
 
 const StaticProgram: React.FC = () => {
     const { currentUser } = useAuthContext();
@@ -24,7 +25,11 @@ const StaticProgram: React.FC = () => {
                     {(currentUser?.workouts || [initWorkout]).map((row) => (
                         <tr key={row.id}>
                             <td>{row.exercise}</td>
-                            <td>{row.link}</td>
+                            <td className={style.centerText} style={{fontSize: 30}}>
+                                <a href={row.link || ""} target="_blank">
+                                    <IoMdLink />
+                                </a>
+                            </td>
                             <td className={style.centerText}>{row.sets}</td>
                             <td className={style.centerText}>{row.reps}</td>
                             <td className={style.centerText}>{row.rest}</td>
