@@ -8,8 +8,23 @@ const useUpdateWorkout = (workoutData: Workout[], selectedUserId: string) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { setAlert } = useWorkoutContext();
 
+    const validateUrl = (string: string) => {
+        try {
+            const url = new URL(string);
+            return url.protocol === "http:" || url.protocol === "https:";
+        } catch (err) {
+            return false;
+        }
+    };
+
     const validation = (workoutData: Workout[]) => {
-        const hasEmptyFields = workoutData.some((row) => !row.exercise);
+        const hasEmptyFields = workoutData.some((row) => {
+            if(row.link !== "" && !validateUrl(row.link || "")) {
+                return true;
+            } else {
+                return !row.exercise
+            }
+        });
         return !hasEmptyFields;
     };
 
@@ -35,6 +50,8 @@ const useUpdateWorkout = (workoutData: Workout[], selectedUserId: string) => {
                     setIsLoading(false);
                 }
             }
+        } else {
+            setAlert("לא כל הפרטים שהוזנו תקינים", "error", true);
         }
     };
 

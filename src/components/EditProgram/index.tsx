@@ -70,7 +70,6 @@ const EditProgram: React.FC = () => {
                                 <TableRow
                                     value={row.sets}
                                     id={row.id}
-                                    type="number"
                                     name="sets"
                                     handleCellEdit={handleCellEdit}
                                     placeholder="מספר"

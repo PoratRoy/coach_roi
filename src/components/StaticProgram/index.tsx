@@ -25,11 +25,15 @@ const StaticProgram: React.FC = () => {
                     {(currentUser?.workouts || [initWorkout]).map((row) => (
                         <tr key={row.id}>
                             <td>{row.exercise}</td>
-                            <td className={style.centerText} style={{fontSize: 30}}>
-                                <a href={row.link || ""} target="_blank">
-                                    <IoMdLink />
-                                </a>
-                            </td>
+                            {row.link && row.link !== "" ? (
+                                <td className={style.centerText} style={{ fontSize: 30 }}>
+                                    <a href={row.link} target="_blank">
+                                        <IoMdLink />
+                                    </a>
+                                </td>
+                            ) : (
+                                <td className={style.centerText}>אין קישורים נוספים</td>
+                            )}
                             <td className={style.centerText}>{row.sets}</td>
                             <td className={style.centerText}>{row.reps}</td>
                             <td className={style.centerText}>{row.rest}</td>

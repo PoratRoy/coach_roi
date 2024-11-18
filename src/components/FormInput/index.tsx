@@ -30,6 +30,7 @@ const FormInput: React.FC<FormInputProps> = ({
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 required={isRequired}
+                lang="he"
             />
         </div>
     );

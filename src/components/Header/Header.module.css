@@ -1,7 +1,9 @@
-.header{
+.header {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
     width: 100%;
     padding: 10px 0;
@@ -9,30 +11,38 @@
     font-size: 16px;
 }
 
-.header ul{
+.header ul {
     display: flex;
     list-style: none;
 }
 
-.header ul li{
-    margin-right: 15px;
+.header ul li {
+    margin-left: 15px;
 }
 
-.header ul li a{
+.header ul li a {
     text-decoration: none;
     color: #a4a4a4;
     font-size: 16px;
     cursor: pointer;
 }
 
-.header ul li a:hover{
+.header ul li a:hover {
     color: #dbdbdb;
 }
 
-.header ul li button{
+.header ul li button {
     background-color: transparent;
     border: none;
     cursor: pointer;
     font-size: 16px;
     color: #a4a4a4;
+}
+
+.headerName {
+    font-size: 16px;
+    font-weight: bold;
+    color: #a4a4a4;
+    /* margin-left: 15px; */
+    text-align: center;
 }

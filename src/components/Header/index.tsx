@@ -7,7 +7,7 @@ import { useWorkoutContext } from "../../context/WorkoutContext";
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
-    const { logout, isAdmin } = useAuthContext();
+    const { logout, isAdmin, currentUser } = useAuthContext();
     const { clearUsers } = useWorkoutContext();
 
     const handleLogout = async () => {
@@ -18,6 +18,9 @@ const Header: React.FC = () => {
 
     return (
         <nav className={style.header}>
+            {currentUser?.username ? (
+                <span className={style.headerName}>שלום {currentUser?.username}</span>
+            ) : null}
             <ul>
                 {isAdmin ? (
                     <li>

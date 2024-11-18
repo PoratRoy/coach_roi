@@ -31,7 +31,7 @@ const LoginPage: React.FC = () => {
                 <FormInput
                     id="Email"
                     label="אימייל"
-                    type="text"
+                    type="email"
                     value={email}
                     onChange={setEmail}
                     isRequired
